@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -8,98 +10,78 @@ use App\Item;
 
 class MatrixTest extends TestCase
 {
-
-	public function test_Some_Item_Decrease_Quality_in_1_unit()
-	{
-		$someItem = new Item("Some Item", 2, 3);
-
-		GildedRose::updateQuality([$someItem]);
-
-		$this->assertEquals(2, $someItem->quality);
-		$this->assertEquals(1, $someItem->sellIn);
-	}
-
-	public function test_sellIn_passed_quality_decrease_doble()
-	{
-		$someItem = new Item("Some Item", 0, 3);
-
-		GildedRose::updateQuality([$someItem]);
-
-		$this->assertEquals(1, $someItem->quality);
-	}
-
-
-	public function test_quality_item_never_under_0()
-	{
-		$someItem = new Item("Some Item", 2, 0);
-
-		GildedRose::updateQuality([$someItem]);
-
-		$this->assertEquals(0, $someItem->quality);
-	}
-
-	public function test_agedbrie_increase_quality()
-	{
-		$agedbrie = new Item("Aged Brie", 2, 0);
-
-		GildedRose::updateQuality([$agedbrie]);
-
-		$this->assertEquals(1, $agedbrie->quality);
-	}
-
-	public function test_if_quality_never_bigger_then_50()
-	{
-		$agedbrie = new Item("Aged Brie", 2, 50);
-
-		GildedRose::updateQuality([$agedbrie]);
-
-		$this->assertEquals(50, $agedbrie->quality);
-	}
-
-	public function test_Sulfuras_never_sell_never_decrease_quality()
-	{
-		$sulfuras = new Item("Sulfuras, Hand of Ragnaros", 1, 1);
-
-		GildedRose::updateQuality([$sulfuras]);
-
-		$this->assertEquals(1, $sulfuras->quality);
-		$this->assertEquals(1, $sulfuras->sellIn);
-	}
-
-	public function test_backstage_increment_quality_above_10()
-	{
-		$backstage = new Item("Backstage passes to a TAFKAL80ETC concert", 11, 1);
-
-		GildedRose::updateQuality([$backstage]);
-
-		$this->assertEquals(2, $backstage->quality);
-	}
-
-	public function test_backstage_increment_double_quality_under_or_equals_10()
-	{
-		$backstage = new Item("Backstage passes to a TAFKAL80ETC concert", 10, 1);
-
-		GildedRose::updateQuality([$backstage]);
-
-		$this->assertEquals(3, $backstage->quality);
-	}
-
-	public function test_backstage_increment_triple_quality_under_or_equals_5()
-	{
-		$backstage = new Item("Backstage passes to a TAFKAL80ETC concert", 5, 1);
-
-		GildedRose::updateQuality([$backstage]);
-
-		$this->assertEquals(4, $backstage->quality);
-	}
-
-	public function test_backstage_decrease_to_0_after_concert()
-	{
-		$backstage = new Item("Backstage passes to a TAFKAL80ETC concert", 0, 1);
-
-		GildedRose::updateQuality([$backstage]);
-
-		$this->assertEquals(0, $backstage->quality);
-	}
 	
 }
+
+/*
+ * By adding type hints and enabling strict type checking, code can become
+ * easier to read, self-documenting and reduce the number of potential bugs.
+ * By default, type declarations are non-strict, which means they will attempt
+ * to change the original type to match the type specified by the
+ * type-declaration.
+ *
+ * In other words, if you pass a string to a function requiring a float,
+ * it will attempt to convert the string value to a float.
+ *
+ * To enable strict mode, a single declare directive must be placed at the top
+ * of the file.
+ * This means that the strictness of typing is configured on a per-file basis.
+ * This directive not only affects the type declarations of parameters, but also
+ * a function's return type.
+ *
+ * For more info review the Concept on strict type checking in the PHP track
+ * <link>.
+ *
+ * To disable strict typing, comment out the directive below.
+ */
+
+
+class MatrixTest extends PHPUnit\Framework\TestCase
+{
+    public static function setUpBeforeClass(): void
+    {
+        require_once 'Matrix.php';
+    }
+    public function testExtractRowFromOneNumberMatrix(): void
+    {
+        $matrix = new Matrix('1');
+        $this->assertEquals([1], $matrix->getRow(1));
+    }
+    public function testExtractRow(): void
+    {
+        $matrix = new Matrix('1 2\n3 4');
+        $this->assertEquals([3, 4], $matrix->getRow(2));
+    }
+    public function testExtractRowWhereNumbersHaveDifferentWidths(): void
+    {
+        $matrix = new Matrix('1, 2\n10 20');
+        $this->assertEquals([10, 20], $matrix->getRow(2));
+    }
+    public function testExtractRowFromNonSquareMatrixWithNoMatchingColumn(): void
+    {
+        $matrix = new Matrix('1 2 3\n4 5 6\n7 8 9\n8 7 6');
+        $this->assertEquals([8, 7, 6], $matrix->getRow(4));
+    }
+    public function testExtractColumnFromOneNumberMatrix(): void
+    {
+        $matrix = new Matrix('1');
+        $this->assertEquals([1], $matrix->getColumn(1));
+    }
+    public function testExtractColumn(): void
+    {
+        $matrix = new Matrix('1 2 3\n4 5 6\n7 8 9');
+        $this->assertEquals([3, 6, 9], $matrix->getColumn(3));
+    }
+    public function testExtractColumnFromNonSquareMatrixWithNoMatchRow(): void
+    {
+        $matrix = new Matrix('1 2 3 4\n5 6 7 8\n9 8 7 6');
+        $this->assertEquals([4, 8, 6], $matrix->getColumn(4));
+    }
+    public function testExtractColumnWhenNumbersHaveDifferentWidths(): void
+    {
+        $matrix = new Matrix('89 1903 3\n18 3 1\n9 41 800');
+        $this->assertEquals([1903, 3, 41], $matrix->getColumn(2));
+    }
+}
+
+
