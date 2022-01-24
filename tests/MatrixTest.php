@@ -83,5 +83,3 @@ class MatrixTest extends PHPUnit\Framework\TestCase
         $this->assertEquals([1903, 3, 41], $matrix->getColumn(2));
     }
 }
-
-
