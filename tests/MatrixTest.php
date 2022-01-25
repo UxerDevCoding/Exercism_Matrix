@@ -4,14 +4,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use PHPUnit\Framework\TestCase;
 use App\Matrix;
-use App\Item;
-
-class MatrixTest extends TestCase
-{
-	
-}
+use PHPUnit\Framework\TestCase;
 
 /*
  * By adding type hints and enabling strict type checking, code can become
@@ -36,7 +30,7 @@ class MatrixTest extends TestCase
  */
 
 
-class MatrixTest extends PHPUnit\Framework\TestCase
+class MatrixTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
