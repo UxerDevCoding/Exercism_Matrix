@@ -1,128 +1,139 @@
 <?php
 
-//Get the number of rows and columns for the matrix 
-//Output the row chosen by the index
-//Class object self.rows is a list of rows in the matrix, so relatively
-//straight forward to get the one we want.
-# We use index - 1 as the 1st row is actually the 0th row in python. 
+//LOGICA
+
+//2. Convertir el string que nos dan en una cadena de array de strings.
+//3. Separar esas cadenas de array string.
+//4. Llevar  esas cadenas a filas y columnas.
+//5. Almacenar el número de filas y columnas enn un array de Matrix.
+//6. Poder acceder cada una de las filas o columnas a través del index del array.
+
+//VISUALMENTE SERÍA ESTO:
+
+//"1 2 3\n 4 5 6"
+// ["1 2 3", "4 5 6"]
+// ["1", "2", "3"], ["4", "5", "6"]
 
 
 declare(strict_types=1);
-
 namespace App;
+
 
 class Matrix
 {
-    public $min;
-    public $max;
-    public $rows;
-    public $cols;
-
-    public function __construct(){
-        $this->min = 1; //nºminimo
-        $this->max = 9; //número máximo
-        $this->rows = 3; //número de filas
-        $this->cols = 3; //número de columnas
-    }
-
-    public function createMatrix() {
-        $matrix = array();
-        $position = " ";
-        for($i=0; $i<$this->rows; $i++) {
-            for($j=0; $j<$this->cols; $j++) {
-                $matrix[$i][$j] = rand($this->min, $this->max); //valor random
-                $position = $matrix[$i][$j];
-            }
-        }
-
-        return $position;
-    }
-
-    public function getRow() {
-
-        
-  
-    }
-
-    public function getColumn()
+    private $matrix = [];
+    
+    public function __construct(string $numbers)
     {
-         
-       
+        $rows = explode('\n', $numbers);
+        foreach ($rows as $row) {
+            $row = explode(" ", $row);
+            $this->matrix[] = array_map("intval", $row);
+        }
     }
-  
+    public function getRow(int $row): array
+    {
+        return $this->matrix[$row - 1];
+    }
+    public function getColumn(int $col): array
+    {
+        return array_column($this->matrix, $col - 1);
+    }
 }
 
 
-//Realizar constructor definiendo las 3 variables de los test: $matrix, $getRow y $getColumns El propio matrix, 
 
-// export class Matrix {
-//     constructor(numStr) {
-//       this.numStr = numStr;
-//       this.matrix = this.createMatrix();
-//     }
-  
-//     createMatrix() {
-//       const rowStr = this.numStr.split("\n");
-//       const matrix = [];
-//       for (let i = 0; i < rowStr.length; i++) {
-//         let row = rowStr[i].split(" ");
-//         let numRow = row.map((elem) => parseInt(elem, 10));
-//         matrix.push(numRow);
-//       }
-//       return matrix;
-//     }
-  
-//     get rows() {
-//       return this.matrix;
-//     }
-  
-//     get columns() {
-//       let columns = [];
-//       let j = 0;
-//       for (let i = 0; i < this.matrix.length; i++) {
-//         let column = [];
-//         const number = this.matrix[i][j];
-//         console.log(number);
-//         if (i === this.matrix.length - 1) {
-//           j++;
+
+
+
+
+//1
+//   class Matrix
+// {
+//     private array $values;
+
+//     public function __construct(string $input)
+//     {
+//         foreach (explode('\n', $input) as $index => $line) {
+//             foreach (explode(' ', $line) as $value) {
+//                 $this->values[$index + 1][] = $value;
+
+//             }
+            
 //         }
-//       }
-//       return columns;
-//     }
-//   }
-
-// class Matrix(object):
-//     def __init__(self, matrix_string):
         
-//         # Get the number of rows and columns for the matrix 
-//         # (and other stuff we'll use later)
-//         self.rows = matrix_string.split("\n")
-//         self.elements = matrix_string.split()
-//         self.num_rows = len(self.rows)
-//         self.num_cols = len(self.elements)/self.num_rows
-//     def row(self, index):
-//         # Output the row chosen by the index
-//         # Class object self.rows is a list of rows in the matrix, so relatively
-//         # straight forward to get the one we want.
-//         # Pretty simple error checking?
-//         if index <= 0 or index > self.num_rows:
-//             raise Exception('Index out of bounds')
-//         # We use index - 1 as the 1st row is actually the 0th row in python.    
-//         output = self.rows[index - 1]
-//         # Split the row into individual characters then turn this into an integer
-//         output = output.split()
-//         output = list(map(int, output))
-//         return output
-//     def column(self, index):
-//          # Input validation
-//          if index <= 0 or index > self.num_cols:
-//              raise Exception('Index out of bounds')
-//          # Set up the output vector
-//          output = []
-//          # For each of the rows, convert to a list and take index element
-//          for i in range(self.num_rows):
-//              r = self.rows[i]
-//              output.append(r.split()[index - 1])
-//          # map the list of characters to integers
-//          output = list(map(int, output))
-//          return output
+//     }
+//     public function getRow(int $row): array
+//     {
+//         return $this->values[$row];
+//     }
+//     public function getColumn(int $column): array
+//     {
+//         $output = [];
+//         foreach ($this->values as $values) {
+//             $output[] = $values[$column - 1];
+//         }
+//         return $output;
+//         var_dump($output);
+//     }
+// }
+
+//CONSTRUCCIÓN DEL MATRIX
+
+//1.
+// $matrix = array('1 2 3\n 4 5 6\n 7 8 9\n 8 7 6');
+// foreach ($matrix as $value) {
+//     echo $value, "\n";
+// }
+
+//2.
+// $rows = range( 1, 3 );
+//     $cols = range( 1, 3 );
+    
+//     foreach ( $cols as $column ) {
+//       foreach ( $rows as $row ) {
+//         // Aquí creamos los ejes con un valor aleatorio
+//         $matrix[ $column ][ $row] = rand( 1, 9 );
+//       }
+//     }
+    
+//     // Creamos la tabla
+//     $html = '<table border>';
+//     $html .= '<th></th>';
+    
+//     // Para crear las columnas X ( $rows = 1 a 3 )
+//     foreach ( $rows as $indexRow ) {
+//       $html .= '<th>'.$indexRow.'</th>';
+//     }
+    
+//     foreach ( $matrix as $indexColumn => $numbers ) {
+//       $html .= '<tr>';
+//       // Para crear las columnas Y ( $cols = 1 a 3 )
+//       $html .= '<td><b>'.$indexColumn.'</b></td>';
+    
+//       foreach ( $numbers as $numb ) {
+//         // Creamos los campos de los numbores
+//         $html .= '<td>'.$numb.'</td>';
+//       }
+    
+//       $html .= '</tr>';
+//     }
+
+//     $html .= '</table>';
+    
+//     echo $html;
+      
+        
+ // public function getRow() 
+    //{
+
+    //}
+
+ // public function getColumn()
+    //{
+          
+    //}
+  
+
+
+

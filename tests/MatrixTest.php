@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\Matrix;
 use PHPUnit\Framework\TestCase;
+use App\Matrix;
+
+
 
 /*
  * By adding type hints and enabling strict type checking, code can become
@@ -32,10 +34,10 @@ use PHPUnit\Framework\TestCase;
 
 class MatrixTest extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        require_once 'Matrix.php';
-    }
+    // public static function setUpBeforeClass(): void
+    // {
+    //     require_once 'Matrix.php';
+    // }
     public function testExtractRowFromOneNumberMatrix(): void
     {
         $matrix = new Matrix('1');
