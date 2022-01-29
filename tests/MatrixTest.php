@@ -34,10 +34,10 @@ use App\Matrix;
 
 class MatrixTest extends TestCase
 {
-    // public static function setUpBeforeClass(): void
-    // {
-    //     require_once 'Matrix.php';
-    // }
+    public static function setUpBeforeClass(): void
+    {
+        require_once 'Matrix.php';
+    }
     public function testExtractRowFromOneNumberMatrix(): void
     {
         $matrix = new Matrix('1');
